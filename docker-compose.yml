@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:1.17.6-alpine
+    ports:
+      - "8000:80"
+    links:
+      - node
+
+  node:
+    build:
+      context: node
+      dockerfile: Dockerfile.prod
+    container_name: node
+    entrypoint: dockerize --wait tcp://db:3306 -timeout 30s
+    volumes:
+      - ./node:/usr/src/app
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  db:
+      image: mysql:5.7
+      command: --innodb-use-native-aio=0
+      container_name: db
+      restart: always
+      tty: true
+      volumes:
+          - ./mysql:/var/lib/mysql
+      environment:
+          - MYSQL_DATABASE=nodedb
+          - MYSQL_ROOT_PASSWORD=root
