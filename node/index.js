@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
     if (err) throw err;
 
     res.send(`
-      <h1>Hello Full Cycle!</h1>
+      <h1>Full Cycle Rocks!</h1>
       <ul>
         ${results.map(item => '<li>' + item.name + '</li>')}
       </ul>
