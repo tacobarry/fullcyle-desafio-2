@@ -1,23 +1,40 @@
 const express = require('express')
+const mysql = require('mysql')
+
 const app = express()
+
 const port = 3000
+
 const config = {
   host: 'db',
   user: 'root',
   password: 'root',
   database: 'nodedb'
 }
-const mysql = require('mysql');
+
 const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values ('Tacobarry');`
-connection.query(sql)
-const sql1 = `SELECT * FROM people;`
-const results = connection.query(sql1)
-connection.end()
+connection.connect();
 
-console.log(results)
+// const sql = `SELECT * FROM people;`
+// const results = connection.query(sql)
 
-app.get('/', (req, res) => res.send('<h1>Hello Full Cycle!</h1>'))
+// console.log(results)
+// connection.end()
+
+app.get('/', (req, res) => {
+  connection.query(`SELECT * from people`, function(err, results) {
+    if (err) throw err;
+
+    res.send(`
+      <h1>Hello Full Cycle!</h1>
+      <ul>
+        ${results.map(item => '<li>' + item.name + '</li>')}
+      </ul>
+    `)
+
+  })
+
+})
 
 app.listen(port, () => console.log(`Rodando na porta ${port}!`))
