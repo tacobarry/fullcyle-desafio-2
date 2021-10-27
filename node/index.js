@@ -16,12 +16,12 @@ const connection = mysql.createConnection(config)
 
 connection.connect();
 
-let sql = `CREATE TABLE people(id int NOT NULL auto_increment prymary_key, name varchar(255) NOT NULL);`
-connection.query(sql)
-sql = `INSERT INTO people(name) values ('Tacobarry');`
-connection.query(sql)
-sql = `insert into people(name) values('Ensina a gente a fazer dump e rodar pra não fazer essa gamb aqui!');`
-connection.query(sql)
+// let sql = `CREATE TABLE people(id int NOT NULL auto_increment prymary_key, name varchar(255) NOT NULL);`
+// connection.query(sql)
+// sql = `INSERT INTO people(name) values ('Tacobarry');`
+// connection.query(sql)
+// sql = `insert into people(name) values('Ensina a gente a fazer dump e rodar pra não fazer essa gamb aqui!');`
+// connection.query(sql)
 
 app.get('/', (req, res) => {
   connection.query(`SELECT * from people`, function(err, results) {

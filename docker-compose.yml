@@ -30,20 +30,37 @@ services:
     networks:
       - node-networks
 
+  # db:
+  #   build:
+  #     context: db
+  #   container_name: db
+  #   # entrypoint: ./.docker/init_db.sh
+  #   command: --innodb-use-native-aio=0
+  #   restart: always
+  #   tty: true
+  #   # volumes:
+  #   #   - ./mysql:/var/lib/mysql
+  #   volumes:
+  #     - ./db/dump:/docker-entrypoint-initdb.d
+  #   networks:
+  #     - node-networks
+  #   # environment:
+  #   #   - MYSQL_DATABASE=nodedb
+  #   #   - MYSQL_ROOT_PASSWORD=root
+
   db:
-    image: mysql:5.7
-    command: --innodb-use-native-aio=0
+    image: mysql
     container_name: db
-    entrypoint: ./.docker/entrypoint.sh
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     tty: true
-    volumes:
-      - ./mysql:/var/lib/mysql
     networks:
       - node-networks
     environment:
-      - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=nodedb
+    volumes:
+      - ./db/dump:/docker-entrypoint-initdb.d
 
 networks:
   node-networks:
