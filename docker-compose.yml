@@ -31,18 +31,19 @@ services:
       - node-networks
 
   db:
-      image: mysql:5.7
-      command: --innodb-use-native-aio=0
-      container_name: db
-      restart: always
-      tty: true
-      volumes:
-        - ./mysql:/var/lib/mysql
-      networks:
-        - node-networks
-      environment:
-        - MYSQL_DATABASE=nodedb
-        - MYSQL_ROOT_PASSWORD=root
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    entrypoint: ./.docker/entrypoint.sh
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - node-networks
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
 
 networks:
   node-networks:

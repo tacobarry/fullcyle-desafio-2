@@ -1,3 +1,6 @@
 **/node_modules/**
-mysql/**
+mysql/*
+!mysql/Dockerfile.prod
+!mysql/.docker/
 yarn.lock
+draft/
